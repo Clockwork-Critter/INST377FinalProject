@@ -1,0 +1,24 @@
+{
+  "name": "inst377finalproject",
+  "version": "1.0.0",
+  "description": "See github",
+  "homepage": "https://github.com/Clockwork-Critter/INST377FinalProject#readme",
+  "bugs": {
+    "url": "https://github.com/Clockwork-Critter/INST377FinalProject/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Clockwork-Critter/INST377FinalProject.git"
+  },
+  "license": "ISC",
+  "author": "Prudence",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "express": "^5.1.0",
+    "nodemon": "^3.1.10"
+  }
+}
