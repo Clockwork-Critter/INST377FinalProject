@@ -13,3 +13,9 @@ nav ul {
   p {
     text-align: center;
   }
+#carbonChart {
+width: 300px !important; 
+height: 300px !important;
+max-width: 400px;
+max-height: 400px;
+}

@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/simple-slider/1.0.0/simpleslider.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <title>Website Carbon Footprint Tracker</title>
 </head>
 <body>
@@ -17,23 +18,75 @@
         </ul>
     </nav>
 <h2>Calculate Carbon Footprint Information:</h2>
-<form>
+<form onsubmit="getCarbon(event)">
     <label>Enter a Website URL:</label>
-    <input>
+    <input required type="url" id="carbonURL">
     <button type="submit">Calculate</button>
 </form>
 <h3 id="clean"></h3>
 <h3 id="Energy"></h3>
 <h3 id="co2"></h3>
+<canvas id="carbonChart" width="400" height="400"></canvas>
+
 <h2>See if a Website Has Been Searched Here Before:</h2>
 <form>
     <label>Enter a Website URL:</label>
-    <input>
+    <input required type="url">
     <button type="submit">Search</button>
 </form>
 <h2> Submit a Website Without Searching for Information:</h2>
 <form>
     <label>Enter a Website URL:</label>
-    <input>
+    <input required type="url">
     <button type="submit">Submit</button>
 </form>
+</body>
+</html>
+<script>
+let myPieChart = null;
+async function getCarbon(event) {
+    event.preventDefault();
+    const checkurl = document.getElementById("carbonURL").value
+    const url = 'https://api.websitecarbon.com/site?url=' + checkurl 
+    const response = await fetch(url);
+    const data = await response.json();
+    document.getElementById("clean").textContent = `Is it run on renewable energy? ${data.green}`;
+    document.getElementById("Energy").textContent = `Estimated energy consumption: ${data.statistics.energy}`+"KWg";
+if (data.statistics.co2 && data.statistics.co2.grams !== undefined) {
+        document.getElementById("co2").textContent = `Estimated CO2 emissions: ${data.statistics.co2.grams}g per page view`;
+    } else {
+        document.getElementById("co2").textContent = `Estimated CO2 emissions: Information not available for this website.`;
+    }
+const cleanerThanPercentage = data.cleanerThan * 100;
+          const chartData = {
+          labels: ['Cleaner Than', 'Dirtier Than'],
+          datasets: [{
+          data: [cleanerThanPercentage, 100 - cleanerThanPercentage],
+             backgroundColor: ['#4CAF50', '#F44336'],
+             hoverOffset: 4
+}]
+  };
+ const chartOptions = {
+         responsive: true,
+           maintainAspectRatio: false,
+             plugins: {
+                 title: {
+                 display: true,
+                  text: `Cleaner Than ${cleanerThanPercentage.toFixed(2)}% of Websites`
+  }
+ }
+  };
+if (myPieChart) {
+       myPieChart.destroy();
+   }
+        myPieChart = new Chart(
+         document.getElementById('carbonChart'),
+        {
+             type: 'pie',
+              data: chartData,
+              options: chartOptions
+  }
+);
+ }
+
+    </script>
