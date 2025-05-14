@@ -29,17 +29,19 @@
 <canvas id="carbonChart" width="400" height="400"></canvas>
 
 <h2>See if a Website Has Been Searched Here Before:</h2>
-<form>
+<form onsubmit="searchData(event)">
     <label>Enter a Website URL:</label>
-    <input required type="url">
+    <input required type="url" id ='searchURL'>
     <button type="submit">Search</button>
 </form>
+<h3 id="searchResult"></h3>
 <h2> Submit a Website Without Searching for Information:</h2>
-<form>
+<form onsubmit="addData(event)">
     <label>Enter a Website URL:</label>
-    <input required type="url">
+    <input required type="url" id="addURL">
     <button type="submit">Submit</button>
 </form>
+<h3 id="done"></h3>
 </body>
 </html>
 <script>
@@ -88,5 +90,35 @@ if (myPieChart) {
   }
 );
  }
+async function searchData(event) {
+    event.preventDefault();
+    const url2 = document.getElementById("searchURL").value
+    const response = await fetch('http://localhost:3000/search?url='+url2);
+    const data = await response.json();
+    console.log('Data received from server:', data); // Add this line
+
+    if(Array.isArray(data) && data.length === 0) {
+        document.getElementById("searchResult").innerHTML = 'Website Not Found'
+    }
+    else {
+        document.getElementById("searchResult").innerHTML = JSON.stringify(data)+ ' Found';
+    }
+}
+async function addData(event) {
+        event.preventDefault();
+        const url3 = document.getElementById("addURL").value
+        const response = await fetch('http://localhost:3000/add', {
+    method: 'POST',
+    headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+    },
+    body:  JSON.stringify({"url": url3 })
+})
+.then(response => response.json())
+.then(response => console.log(JSON.stringify(response)))
+
+document.getElementById("done").innerHTML = 'Added';
+}
 
     </script>
