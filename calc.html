@@ -93,7 +93,7 @@ if (myPieChart) {
 async function searchData(event) {
     event.preventDefault();
     const url2 = document.getElementById("searchURL").value
-    const response = await fetch('http://inst-377-final-project-nine.vercel.app/search?url='+url2);
+    const response = await fetch('https://inst-377-final-project-nine.vercel.app/search?url='+url2);
     const data = await response.json();
     console.log('Data received from server:', data); // Add this line
 
@@ -107,7 +107,7 @@ async function searchData(event) {
 async function addData(event) {
         event.preventDefault();
         const url3 = document.getElementById("addURL").value
-        const response = await fetch('http:/inst-377-final-project-nine.vercel.app/add', {
+        const response = await fetch('https:/inst-377-final-project-nine.vercel.app/add', {
     method: 'POST',
     headers: {
         'Accept': 'application/json',
