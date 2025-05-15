@@ -37,4 +37,5 @@ example request:https://inst-377-final-project-nine.vercel.app/add body: {"url":
 Known bugs: 
 1. The API endpoints don't check if the URLs submitted are formatted correctly
 2. The search function on the calculator page returns the entire JSON returned by the API instead of the URL name found
+
 Future Developement: Fix these bugs
